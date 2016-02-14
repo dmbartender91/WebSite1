@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="browserMedia.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script type="text/javascript">
+
+        var signalingChannel = function () {
+
+            var socket = io();
+            var configuration = "";
+
+            socket.on('configuration', function (msg) {
+
+                //escape message
+                configuration(msg);
+                console.log("Configuration received: " + configuration);
+
+            });
+
+            function send(type, message) {
+
+                if (type == "configuration")
+                    socket.emit('configuration', message);
+                return false;
+
+            }
+           
+        }
+
+        var rtcSignalChannel = signalingChannel();
+        rtcSignalChannel.send('configuration', 'configuration sent');
+
+    </script>
+    
+
+
+</head>
+<body>
+    <script src="browserMedia.js"></script>
+    <div id="container">
+
+        <video autoplay></video>
+
+    </div>
+
+</body>
+</html>
